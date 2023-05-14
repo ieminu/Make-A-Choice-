@@ -36,7 +36,6 @@ public class PawnManager : MonoBehaviour
     float xAxis = 0;
     float zAxis = 0;
 
-    [SerializeField]
     float distance;
 
     float xAxissAdditional;
@@ -62,7 +61,7 @@ public class PawnManager : MonoBehaviour
 
         void SetTheVariables()
         {
-            distance = (GameObject.Find("Plane").transform.localScale.x * 10 / 2 - playersTransform.localScale.x / 2) / 2;
+            distance = Distance(1);
 
             xAxis = 0;
             zAxis = 2 * distance;
@@ -86,6 +85,8 @@ public class PawnManager : MonoBehaviour
             if (selectionGatesText.Contains("+"))
             {
                 int numberOfRows = NumberOfRows();
+
+                distance = Distance(numberOfRows);
 
                 CallPawnSpawningProcesssMethodAccordingToTheText();
 
@@ -118,7 +119,7 @@ public class PawnManager : MonoBehaviour
 
                 CallPawnDespawningProcesssMethodAccordingToTheText();
 
-                ResetTheDistance();
+                distance = Distance(numberOfRows);
 
                 CheckIfNumberOfPawnsThatWillDespawnIsEqualOrBiggerThanOne();
 
@@ -159,6 +160,8 @@ public class PawnManager : MonoBehaviour
             {
                 int numberOfRows = NumberOfRows();
 
+                distance = Distance(numberOfRows);
+
                 CallPawnSpawningProcesssMethodAccordingToTheText();
 
                 UpdatePlayerAndPawnCountText();
@@ -190,7 +193,7 @@ public class PawnManager : MonoBehaviour
 
                 CallPawnDespawningProcesssMethodAccordingToTheText();
 
-                ResetTheDistance();
+                distance = Distance(numberOfRows);
 
                 CheckIfNumberOfPawnsThatWillDespawnIsEqualOrBiggerThanOne();
 
@@ -292,7 +295,7 @@ public class PawnManager : MonoBehaviour
                     smallVariableCounter += 2;
                     smallVariableCountersAdditional += 2;
 
-                    bigVariableCounter += (NumberOfRows() + 3) * 4;
+                    bigVariableCounter += MaxNumberOfPawnsInTheNextRowAccordingToThe(NumberOfRows());
                 }
             }
         }
@@ -492,7 +495,7 @@ public class PawnManager : MonoBehaviour
 
             float firstPawnsFirstLocalScalesYAxis;
 
-            ResetTheDistance();
+            distance = Distance(numberOfRows);
 
             ReplaceThePawns();
 
@@ -713,11 +716,6 @@ public class PawnManager : MonoBehaviour
             }
         }
 
-        void ResetTheDistance()
-        {
-            distance = (GameObject.Find("Plane").transform.localScale.x * 5 - playersTransform.localScale.x / 2) / (NumberOfRows() + 1.5f);
-        }
-
         int AdditionalValueAccordingTo(int value)
         {
             int additionalValueAccordingToTheNumberOfRows = value == 0 ? 1 : value;
@@ -805,6 +803,11 @@ public class PawnManager : MonoBehaviour
                 counter++;
             }
         }
+    }
+
+    float Distance(int numberOfRows)
+    {
+        return (GameObject.Find("Plane").transform.localScale.x * 5 - playersTransform.localScale.x / 2) / (numberOfRows + 1.5f);
     }
 
     private void LateUpdate()

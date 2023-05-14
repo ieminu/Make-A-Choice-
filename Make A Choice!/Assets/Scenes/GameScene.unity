@@ -1035,7 +1035,6 @@ MonoBehaviour:
   pawnsGameObject: {fileID: 1825114419}
   gameManager: {fileID: 1492424172}
   playersTransform: {fileID: 2019355276}
-  distance: 0
 --- !u!4 &558087582
 Transform:
   m_ObjectHideFlags: 0
